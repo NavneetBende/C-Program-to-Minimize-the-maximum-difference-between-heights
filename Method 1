@@ -1,0 +1,49 @@
+#include <stdio.h>
+ 
+int min(int a, int b){
+    if(a>b)
+        return b;
+    return a;
+}
+
+int max(int a, int b){
+    if(a<b)
+        return b;
+    return a;
+}
+
+int getMinDiff(int arr[], int n, int k)
+{
+    //Sort the array
+    for(int i=0; i<n; i++){
+        for(int j=i+1; j<n; j++){ if(arr[i]>arr[j]){
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+
+    int ans = arr[n - 1] - arr[0]; 
+ 
+    int tempmin, tempmax;
+    tempmin = arr[0];
+    tempmax = arr[n - 1];
+ 
+    for (int i = 1; i < n; i++) {
+        tempmin= min(arr[0] + k,arr[i] - k); 
+        tempmax = max(arr[i - 1] + k, arr[n - 1] - k); 
+        ans = min(ans, tempmax - tempmin);
+    }
+    return ans;
+}
+ 
+// Driver Code Starts
+int main()
+{
+    int k = 6, n = 6;
+    int arr[] = { 7, 4, 8, 8, 8, 9 };
+    int ans = getMinDiff(arr, n, k);
+    
+    printf("%d", ans);
+}
